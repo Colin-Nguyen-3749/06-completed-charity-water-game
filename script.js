@@ -413,7 +413,7 @@ function createGameArea() {
     gameArea.style.maxWidth = isMobile ? `${areaWidth}px` : '600px';
     gameArea.style.height = `${areaHeight}px`;
     gameArea.style.margin = isMobile ? '0 auto 0 auto' : '32px auto 0 auto';
-    gameArea.style.background = '#181818';
+    gameArea.style.background = '#2A2A2A'; // Made lighter from #181818
     gameArea.style.border = '2px solid #fff';
     gameArea.style.borderRadius = isMobile ? '8px' : '12px';
     gameArea.style.overflow = 'hidden';
@@ -509,28 +509,27 @@ function createGameArea() {
     }
 
     // Add the player avatar
-    const player = document.createElement('div');
+    const player = document.createElement('img');
     player.id = 'player';
+    player.src = 'img/stand.png'; // Start with standing image
+    player.alt = 'Player';
     player.style.position = 'absolute';
-    player.style.width = '28px';
-    player.style.height = '28px';
-    player.style.left = `${platforms[0].x + platforms[0].width / 2 - 14}px`;
-    player.style.top = `${platforms[0].y - 28}px`;
-    player.style.background = '#FFC907';
-    player.style.border = '2px solid #fff';
-    player.style.borderRadius = '6px';
-    player.style.boxShadow = '0 2px 0 #222';
-    player.style.display = 'flex';
-    player.style.alignItems = 'center';
-    player.style.justifyContent = 'center';
-    player.style.fontSize = '1.2rem';
+    player.style.width = '100px'; // Made bigger from 28px
+    player.style.height = '100px'; // Made bigger from 28px
+    player.style.left = `${platforms[0].x + platforms[0].width / 2 - 50}px`; // Center the 100px player
+    player.style.top = `${platforms[0].y - 100}px`; // Position above platform
+    player.style.border = 'none'; // Remove white border
+    player.style.borderRadius = '0'; // Remove border radius since no border
+    player.style.boxShadow = 'none'; // Remove shadow since no border
+    player.style.display = 'block';
     player.style.zIndex = '2';
-    player.textContent = '🙂'; // Simple avatar
+    player.style.imageRendering = 'pixelated'; // Keep pixelated look
+    player.style.transform = 'scaleX(-1)'; // Start facing left (default)
     gameArea.appendChild(player);
 
     // Player physics variables
-    let px = platforms[0].x + platforms[0].width / 2 - 14;
-    let py = platforms[0].y - 28;
+    let px = platforms[0].x + platforms[0].width / 2 - 50; // Center the 100px player
+    let py = platforms[0].y - 100; // Position above platform
     let vx = 0;
     let vy = 0;
     let onGround = false;
@@ -542,6 +541,9 @@ function createGameArea() {
     // Track the player's last safe position (on a blue platform)
     let lastSafeX = px;
     let lastSafeY = py;
+    
+    // Track player's facing direction (true = right, false = left)
+    let facingRight = false;
 
     // Keyboard controls
     let leftPressed = false;
@@ -651,9 +653,15 @@ function createGameArea() {
 
     function gameLoop() {
         // Move left/right
-        if (leftPressed) vx = -moveSpeed;
-        else if (rightPressed) vx = moveSpeed;
-        else vx = 0;
+        if (leftPressed) {
+            vx = -moveSpeed;
+            facingRight = true; // Player is moving left
+        } else if (rightPressed) {
+            vx = moveSpeed;
+            facingRight = false; // Player is moving right
+        } else {
+            vx = 0;
+        }
 
         // Jump
         if (jumpPressed && onGround) {
@@ -673,7 +681,7 @@ function createGameArea() {
 
         // Prevent player from going out of bounds horizontally
         if (px < 0) px = 0;
-        if (px > areaWidth - 28) px = areaWidth - 28;
+        if (px > areaWidth - 100) px = areaWidth - 100; // Adjusted for 100px size
 
         // Prevent player from jumping above the top of the game area
         if (py < 0) {
@@ -681,13 +689,29 @@ function createGameArea() {
             vy = 0;
         }
 
+        // Update player avatar based on state and direction
+        if (!onGround) {
+            // Player is jumping/falling
+            player.src = 'img/jump.png';
+        } else {
+            // Player is on ground (standing or moving)
+            player.src = 'img/stand.png';
+        }
+        
+        // Update player facing direction
+        if (facingRight) {
+            player.style.transform = 'scaleX(1)'; // Face right (normal)
+        } else {
+            player.style.transform = 'scaleX(-1)'; // Face left (flipped)
+        }
+
         // Platform collision (simple AABB)
         onGround = false;
         for (let plat of platforms) {
             if (
-                py + 28 <= plat.y + vy &&
-                py + 28 + vy >= plat.y &&
-                px + 24 > plat.x && px + 4 < plat.x + plat.width
+                py + 100 <= plat.y + vy &&  // Bottom of 100px player
+                py + 100 + vy >= plat.y &&  // Bottom of player + velocity
+                px + 80 > plat.x && px + 20 < plat.x + plat.width  // Adjusted for 100px width
             ) {
                 // --- Check if landing on a brown platform ---
                 const platColor = plat.el.style.background;
@@ -713,15 +737,15 @@ function createGameArea() {
                         let closest = null;
                         let minDist = Infinity;
                         for (let bp of bluePlats) {
-                            let dist = Math.abs((py + 28) - bp.y);
+                            let dist = Math.abs((py + 100) - bp.y); // Use 100px height
                             if (dist < minDist) {
                                 minDist = dist;
                                 closest = bp;
                             }
                         }
                         if (closest) {
-                            px = closest.x + closest.width / 2 - 14;
-                            py = closest.y - 28;
+                            px = closest.x + closest.width / 2 - 50; // Center the 100px player
+                            py = closest.y - 100; // Position above platform
                             vy = 0;
                             // Update last safe position
                             lastSafeX = px;
@@ -759,7 +783,7 @@ function createGameArea() {
                     }
                 } else {
                     // Land on platform normally
-                    py = plat.y - 28;
+                    py = plat.y - 100; // Position above platform for 100px height
                     vy = 0;
                     onGround = true;
                     
@@ -783,8 +807,8 @@ function createGameArea() {
             // If there are blue platforms, pick a random one
             if (bluePlats.length > 0) {
                 const randomBlue = bluePlats[Math.floor(Math.random() * bluePlats.length)];
-                px = randomBlue.x + randomBlue.width / 2 - 14;
-                py = randomBlue.y - 28;
+                px = randomBlue.x + randomBlue.width / 2 - 50; // Center the 100px player
+                py = randomBlue.y - 100; // Position above platform
                 vy = 0;
                 scrollY = 0;
                 // Update last safe position to this new random location
@@ -1042,8 +1066,8 @@ function showScreen(message) {
                         if (
                             playerRect.bottom <= platRect.top + 2 &&
                             playerRect.bottom + 2 >= platRect.top &&
-                            playerRect.right > platRect.left + 4 &&
-                            playerRect.left < platRect.right - 4
+                            playerRect.right > platRect.left + 20 && // Adjusted for 100px width
+                            playerRect.left < platRect.right - 20   // Adjusted for 100px width
                         ) {
                             onGroundNow = true;
                         }
