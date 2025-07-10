@@ -1,0 +1,457 @@
+/* Charity: water Brand Colors
+
+Primary Colors:
+- Yellow:     #FFC907
+- Blue:       #2E9DF7
+
+Secondary Colors:
+- Light Blue: #8BD1CB
+- Green:      #4FCB53
+- Orange:     #FF902A
+- Red:        #F5402C
+- Dark Green: #159A48
+- Pink:       #F16061
+
+*/
+
+/* Set up the black background and pixelated font for the whole page */
+body {
+    background: #000;
+    color: #fff;
+    font-family: 'Press Start 2P', monospace;
+    margin: 0;
+    min-height: 100vh;
+}
+
+/* Center the menu vertically and horizontally */
+#menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* Style the main title */
+#main-title {
+    margin-bottom: 40px;
+    font-size: 2rem;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px #222;
+}
+
+/* Style the menu buttons */
+.menu-btn {
+    background: #111;
+    color: #fff;
+    border: 2px solid #fff;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 1rem;
+    padding: 16px 32px;
+    margin: 12px 0;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.2s, color 0.2s;
+    width: 300px;
+    min-height: 48px;
+    outline: none;
+}
+
+.menu-btn:hover {
+    background: #fff;
+    color: #000;
+}
+
+.menu-btn:focus {
+    outline: 3px solid #FFC907; /* Charity: water yellow for focus */
+    outline-offset: 2px;
+}
+
+/* Make sure the menu and screens are responsive */
+#menu,
+#screen {
+    width: 100vw;
+    box-sizing: border-box;
+    padding: 24px 8px;
+}
+
+/* Responsive font size for the title */
+#main-title {
+    font-size: 2rem;
+}
+
+@media (max-width: 600px) {
+    #main-title {
+        font-size: 1.1rem;
+        margin-bottom: 24px;
+    }
+    .menu-btn {
+        font-size: 0.8rem;
+        padding: 12px 8px;
+        width: 90vw;
+        max-width: 320px;
+    }
+}
+
+/* Ensure good color contrast for accessibility */
+body {
+    background: #000;
+    color: #fff;
+}
+
+/* Make sure the back button on screens is also responsive */
+#screen .menu-btn {
+    width: 220px;
+    max-width: 90vw;
+    font-size: 1rem;
+}
+
+/* Bootstrap-like flex utility classes for layout */
+.d-flex {
+    display: flex !important;
+}
+.flex-column {
+    flex-direction: column !important;
+}
+.flex-wrap {
+    flex-wrap: wrap !important;
+}
+.align-items-center {
+    align-items: center !important;
+}
+.align-items-start {
+    align-items: flex-start !important;
+}
+.align-items-end {
+    align-items: flex-end !important;
+}
+.justify-content-between {
+    justify-content: space-between !important;
+}
+.justify-content-center {
+    justify-content: center !important;
+}
+.mb-2 {
+    margin-bottom: 8px !important;
+}
+
+/* HUD styles */
+#hud {
+    font-family: 'Press Start 2P', monospace;
+    background: #111;
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 12px;
+    margin-top: 24px;
+    margin-bottom: 0;
+    padding: 10px 8px 10px 8px;
+    width: 100%;
+    max-width: 600px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    gap: 0;
+    /* Use flex for layout */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#hud .d-flex.align-items-center > span,
+#hud .d-flex.align-items-center > div {
+    margin-bottom: 0 !important;
+}
+
+#hud .d-flex.align-items-center {
+    margin-bottom: 2px !important;
+}
+
+#hud span,
+#hud div {
+    /* Remove extra vertical spacing */
+    line-height: 1.2;
+}
+
+/* HUD grid for 2x2 counters and timer */
+#hud.hud-grid {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 0;
+    padding: 10px 8px 10px 8px;
+    background: #111;
+    border: 2px solid #fff;
+    border-radius: 12px;
+    max-width: 600px;
+    width: 100%;
+    margin-top: 24px;
+    margin-bottom: 0;
+    font-family: 'Press Start 2P', monospace;
+    box-sizing: border-box;
+}
+
+/* 2x2 grid for counters */
+.counters-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 0 24px;
+    align-items: center;
+    justify-items: start;
+    flex: 2;
+}
+
+/* Each counter stack */
+.counter-stack {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 6px 0;
+}
+
+/* Counter label and value styling */
+.counter-label {
+    font-size: 0.9rem;
+    margin-right: 7px;
+    font-family: 'Press Start 2P', monospace;
+    letter-spacing: 1px;
+    color: #fff;
+    min-width: 54px;
+    text-align: right;
+}
+
+.counter-value {
+    font-size: 1.05rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+/* Timer section */
+.timer-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    min-width: 110px;
+    margin-left: 24px;
+}
+.timer-section .counter-label {
+    font-size: 0.9rem;
+    margin-bottom: 2px;
+    margin-right: 0;
+}
+.timer-section .counter-value {
+    font-size: 1.1rem;
+    color: #2E9DF7;
+    font-weight: bold;
+}
+
+/* Icons */
+.coin-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: #FFC907;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    margin-right: 7px;
+}
+.food-icon {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    background: #4FCB53;
+    border: 2px solid #fff;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+.heart-icon {
+    color: #F5402C;
+    font-size: 1.15rem;
+    margin-right: 7px;
+    font-family: inherit;
+}
+
+/* Hunger bar */
+.hunger-bar-outer {
+    display: flex;
+    gap: 2px;
+    background: transparent;
+    width: 70px;
+    height: 12px;
+    overflow: hidden;
+    align-items: center;
+    position: relative;
+    border: 2px solid #fff;
+    border-radius: 0; /* Make the bar unrounded */
+}
+.hunger-segment {
+    display: inline-block;
+    height: 100%;
+    width: 10%;
+    background: #fff;
+    margin: 0;
+    transition: background 0.3s;
+}
+
+/* Responsive for mobile: stack counters, shrink everything, timer below */
+@media (max-width: 700px) {
+    #hud.hud-grid {
+        flex-direction: column;
+        align-items: center;
+        padding: 2vw 2vw 2vw 2vw;
+        font-size: 0.7rem;
+        max-width: 100vw;
+        width: 100vw;
+        border-radius: 10px;
+        margin: 0 auto 8px auto;
+        box-sizing: border-box;
+    }
+    .counters-grid {
+        gap: 0 4px;
+        margin-bottom: 6px;
+    }
+    .counter-label {
+        font-size: 0.7rem;
+        min-width: 32px;
+        margin-right: 4px;
+    }
+    .counter-value {
+        font-size: 0.8rem;
+    }
+    .coin-icon, .food-icon {
+        width: 13px;
+        height: 13px;
+        margin-right: 4px;
+    }
+    .heart-icon {
+        font-size: 0.8rem;
+        margin-right: 4px;
+    }
+    .hunger-bar-outer {
+        width: 36px;
+        height: 7px;
+    }
+    .timer-section {
+        align-items: center;
+        margin-left: 0;
+        min-width: 0;
+        margin-top: 6px;
+    }
+    .timer-section .counter-label {
+        font-size: 0.7rem;
+    }
+    .timer-section .counter-value {
+        font-size: 0.9rem;
+    }
+    #game-area {
+        /* Shrink game area for mobile so all platforms and player are always visible */
+        max-width: 70vw;
+        width: 70vw;
+        height: 120px;
+        border: none;
+        border-radius: 0;
+        margin: 0 auto 0 auto;
+        background: #181818;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+    }
+}
+
+/* Game area styles */
+#game-area {
+    background: #181818;
+    border: 2px solid #fff;
+    border-radius: 12px;
+    width: 100vw;
+    max-width: 600px;
+    height: 400px;
+    margin: 32px auto 0 auto;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+}
+
+/* Platform styles */
+.platform {
+    border: 2px solid #222;
+    border-radius: 6px;
+    box-shadow: 0 2px 0 #222;
+}
+
+/* Coin on platform */
+.coin-on-platform {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #FFC907;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    color: #fff;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Responsive adjustments for HUD and game area */
+@media (max-width: 700px) {
+    #hud, #game-area {
+        max-width: 98vw;
+    }
+    #hud {
+        font-size: 0.9rem;
+        padding: 6px 2vw 6px 2vw;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+    }
+    #hud > div {
+        width: 100%;
+        justify-content: center !important;
+        align-items: center !important;
+        margin-bottom: 4px;
+    }
+    #hud > div:last-child {
+        margin-bottom: 0;
+    }
+    #game-area {
+        height: 220px;
+    }
+}
+
+/* Arcade-style flashing for the education button */
+.edu-flash {
+    animation: edu-arcade-flash 0.4s steps(2, jump-none) infinite;
+    background: #FFC907 !important;
+    color: #111 !important;
+    border: 2px solid #FFC907 !important;
+    box-shadow: 0 0 16px 4px #FFC907, 0 0 2px 1px #fff inset;
+    transition: background 0.1s, color 0.1s, box-shadow 0.1s;
+}
+@keyframes edu-arcade-flash {
+    0% {
+        background: #FFC907;
+        color: #111;
+        box-shadow: 0 0 16px 4px #FFC907, 0 0 2px 1px #fff inset;
+    }
+    50% {
+        background: #fffbe0;
+        color: #222;
+        box-shadow: 0 0 8px 2px #fffbe0, 0 0 2px 1px #FFC907 inset;
+    }
+    100% {
+        background: #FFC907;
+        color: #111;
+        box-shadow: 0 0 16px 4px #FFC907, 0 0 2px 1px #fff inset;
+    }
+}
