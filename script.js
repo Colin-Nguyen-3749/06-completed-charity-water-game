@@ -475,7 +475,7 @@ function createGameArea() {
             coin.style.top = '-26px'; // Adjusted for bigger size
             coin.style.width = '32px'; // Made bigger
             coin.style.height = '32px'; // Made bigger
-            coin.style.border = '2px solid #fff';
+            coin.style.border = 'none'; // Remove white border
             coin.style.borderRadius = '0'; /* Keep pixelated look */
             coin.style.display = 'block';
             coin.style.zIndex = '3';
@@ -535,7 +535,7 @@ function createGameArea() {
     let vy = 0;
     let onGround = false;
     // Use window.currentJumpPower for jump height
-    let gravity = 0.5;
+    let gravity = 1.2; // Increased from 0.8 to make jumping much faster
     let moveSpeed = 4;
     let scrollY = 0;
     
@@ -772,13 +772,31 @@ function createGameArea() {
             }
         }
 
-        // If player falls below screen, reset to last safe position
+        // If player falls below screen, reset to random blue platform
         if (py > areaHeight) {
-            // Reset to last safe position instead of top platform
-            px = lastSafeX;
-            py = lastSafeY;
-            vy = 0;
-            scrollY = 0;
+            // Find all blue platforms currently on screen
+            let bluePlats = platforms.filter(p =>
+                p.el.style.background === '#77A8BB' ||
+                p.el.style.background === 'rgb(119, 168, 187)'
+            );
+            
+            // If there are blue platforms, pick a random one
+            if (bluePlats.length > 0) {
+                const randomBlue = bluePlats[Math.floor(Math.random() * bluePlats.length)];
+                px = randomBlue.x + randomBlue.width / 2 - 14;
+                py = randomBlue.y - 28;
+                vy = 0;
+                scrollY = 0;
+                // Update last safe position to this new random location
+                lastSafeX = px;
+                lastSafeY = py;
+            } else {
+                // If no blue platforms exist, use the last safe position as backup
+                px = lastSafeX;
+                py = lastSafeY;
+                vy = 0;
+                scrollY = 0;
+            }
         }
 
         // Scroll platforms down as player moves up
@@ -919,7 +937,7 @@ function showScreen(message) {
         let segmentsLeft = 10;
 
         // Set jump powers for normal and much lower jumps
-        let jumpPowerNormal = -18; // Increased from -15 to make jumping faster/higher
+        let jumpPowerNormal = -25; // Increased from -22 to make jumping even higher/faster
         window.currentJumpPower = jumpPowerNormal;
 
         // Listen for jump events and update hunger bar segments (visual only)
@@ -1237,6 +1255,5 @@ buttons.forEach(btn => {
 // In your createGameArea's gameLoop, use window.currentJumpPower for jump height:
 // if (jumpPressed && onGround) { vy = window.currentJumpPower; onGround = false; jumpPressed = false; }
 // In your createGameArea's gameLoop, use window.currentJumpPower for jump height:
-// if (jumpPressed && onGround) { vy = window.currentJumpPower; onGround = false; jumpPressed = false; }
 // if (jumpPressed && onGround) { vy = window.currentJumpPower; onGround = false; jumpPressed = false; }
 // if (jumpPressed && onGround) { vy = window.currentJumpPower; onGround = false; jumpPressed = false; }

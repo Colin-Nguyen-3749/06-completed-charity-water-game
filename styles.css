@@ -486,11 +486,9 @@ body {
         box-shadow: 0 0 16px 4px #FFC907, 0 0 2px 1px #fff inset;
     }
 }
+
+/* Remove coin-on-platform styles since we're using images now */
 .coin-on-platform {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 3;
     font-family: 'Press Start 2P', monospace;
     font-size: 14px;
     color: #fff;
