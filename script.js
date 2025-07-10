@@ -24,7 +24,7 @@ function createHUD(money, food, health, timerSeconds) {
     moneyStack.appendChild(moneyLabel);
     const moneyCounter = document.createElement('span');
     moneyCounter.className = 'counter-value';
-    moneyCounter.innerHTML = `<span class="coin-icon"></span>x <span id="money-value">${money}</span>`;
+    moneyCounter.innerHTML = `<img src="img/mone.png" alt="Money" style="width: 28px; height: 28px; margin-right: 7px; image-rendering: pixelated;">x <span id="money-value">${money}</span>`;
     moneyStack.appendChild(moneyCounter);
 
     // Hunger (bottom left)
@@ -78,7 +78,7 @@ function createHUD(money, food, health, timerSeconds) {
     foodStack.appendChild(foodLabel);
     const foodCounter = document.createElement('span');
     foodCounter.className = 'counter-value';
-    foodCounter.innerHTML = `<span class="food-icon"></span>x <span id="food-value">${food}</span>`;
+    foodCounter.innerHTML = `<img src="img/med.png" alt="Food" style="width: 28px; height: 28px; margin-right: 7px; image-rendering: pixelated;">x <span id="food-value">${food}</span>`;
     foodStack.appendChild(foodCounter);
 
     // Health (bottom right)
@@ -90,7 +90,7 @@ function createHUD(money, food, health, timerSeconds) {
     healthStack.appendChild(healthLabel);
     const healthCounter = document.createElement('span');
     healthCounter.className = 'counter-value';
-    healthCounter.innerHTML = `<span class="heart-icon">❤</span>x <span id="health-value">${health}</span>`;
+    healthCounter.innerHTML = `<img src="img/Food Icon for Game.png" alt="Medicine" style="width: 20px; height: 20px; margin-right: 7px; image-rendering: pixelated;">x <span id="health-value">${health}</span>`;
     healthStack.appendChild(healthCounter);
 
     // Add stacks to grid
@@ -466,21 +466,20 @@ function createGameArea() {
         // --- Randomly add a coin on blue platforms ---
         let coin = null;
         if (!isBrown && Math.random() < 0.4) {
-            coin = document.createElement('span');
+            coin = document.createElement('img');
+            coin.src = 'img/mone.png';
+            coin.alt = 'Coin';
             coin.className = 'coin-on-platform';
             coin.style.position = 'absolute';
-            coin.style.left = `${width / 2 - 10}px`;
-            coin.style.top = '-18px';
-            coin.style.width = '20px';
-            coin.style.height = '20px';
-            coin.style.background = '#FFC907';
+            coin.style.left = `${width / 2 - 16}px`; // Adjusted for bigger size
+            coin.style.top = '-26px'; // Adjusted for bigger size
+            coin.style.width = '32px'; // Made bigger
+            coin.style.height = '32px'; // Made bigger
             coin.style.border = '2px solid #fff';
-            coin.style.borderRadius = '50%';
-            coin.style.display = 'flex';
-            coin.style.alignItems = 'center';
-            coin.style.justifyContent = 'center';
+            coin.style.borderRadius = '0'; /* Keep pixelated look */
+            coin.style.display = 'block';
             coin.style.zIndex = '3';
-            coin.innerHTML = '<span style="color:#fff;font-size:14px;">$</span>';
+            coin.style.imageRendering = 'pixelated'; /* Maintain pixelated rendering */
             coin.setAttribute('data-collected', 'false');
             platform.appendChild(coin);
         }
@@ -920,7 +919,7 @@ function showScreen(message) {
         let segmentsLeft = 10;
 
         // Set jump powers for normal and much lower jumps
-        let jumpPowerNormal = -15;
+        let jumpPowerNormal = -18; // Increased from -15 to make jumping faster/higher
         window.currentJumpPower = jumpPowerNormal;
 
         // Listen for jump events and update hunger bar segments (visual only)
@@ -1238,5 +1237,6 @@ buttons.forEach(btn => {
 // In your createGameArea's gameLoop, use window.currentJumpPower for jump height:
 // if (jumpPressed && onGround) { vy = window.currentJumpPower; onGround = false; jumpPressed = false; }
 // In your createGameArea's gameLoop, use window.currentJumpPower for jump height:
+// if (jumpPressed && onGround) { vy = window.currentJumpPower; onGround = false; jumpPressed = false; }
 // if (jumpPressed && onGround) { vy = window.currentJumpPower; onGround = false; jumpPressed = false; }
 // if (jumpPressed && onGround) { vy = window.currentJumpPower; onGround = false; jumpPressed = false; }
