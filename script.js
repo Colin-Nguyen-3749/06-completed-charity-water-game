@@ -539,7 +539,10 @@ function createGameArea() {
     let gravity = 0.5;
     let moveSpeed = 4;
     let scrollY = 0;
-    // let maxPlayerY = py; // Removed unused variable
+    
+    // Track the player's last safe position (on a blue platform)
+    let lastSafeX = px;
+    let lastSafeY = py;
 
     // Keyboard controls
     let leftPressed = false;
@@ -721,6 +724,9 @@ function createGameArea() {
                             px = closest.x + closest.width / 2 - 14;
                             py = closest.y - 28;
                             vy = 0;
+                            // Update last safe position
+                            lastSafeX = px;
+                            lastSafeY = py;
                         }
                     }
 
@@ -752,20 +758,26 @@ function createGameArea() {
                         // Stop the game loop by not calling requestAnimationFrame again
                         return;
                     }
+                } else {
+                    // Land on platform normally
+                    py = plat.y - 28;
+                    vy = 0;
+                    onGround = true;
+                    
+                    // If landing on a blue platform, update last safe position
+                    if (platColor === '#77A8BB' || platColor === 'rgb(119, 168, 187)') {
+                        lastSafeX = px;
+                        lastSafeY = py;
+                    }
                 }
-                // Land on platform
-                py = plat.y - 28;
-                vy = 0;
-                onGround = true;
             }
         }
 
-        // If player falls below screen, reset to top platform
+        // If player falls below screen, reset to last safe position
         if (py > areaHeight) {
-            // Reset to highest platform
-            const topPlat = platforms.reduce((a, b) => (a.y < b.y ? a : b));
-            px = topPlat.x + topPlat.width / 2 - 14;
-            py = topPlat.y - 28;
+            // Reset to last safe position instead of top platform
+            px = lastSafeX;
+            py = lastSafeY;
             vy = 0;
             scrollY = 0;
         }
