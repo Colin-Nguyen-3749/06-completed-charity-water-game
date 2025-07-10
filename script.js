@@ -638,7 +638,8 @@ function createGameArea() {
     }
 
     // Track the player's items
-    let money = 0;
+    // Remove the local money variable since we'll use the DOM counter directly
+    // let money = 0; // Removed - we'll use DOM counter instead
     // let food = 0; // Removed unused variable
     // let health = 0; // Removed unused variable
 
@@ -825,12 +826,12 @@ function createGameArea() {
                 ) {
                     plat.coin.setAttribute('data-collected', 'true');
                     plat.coin.style.display = 'none';
-                    // Increase money by 1
-                    money++;
-                    // Always get the money-value span from the DOM and update it
+                    // Always get the current money value from the DOM and increment it
                     const moneyValue = document.getElementById('money-value');
                     if (moneyValue) {
-                        moneyValue.textContent = money;
+                        let currentMoney = parseInt(moneyValue.textContent, 10);
+                        currentMoney++;
+                        moneyValue.textContent = currentMoney;
                     }
                 }
             }
