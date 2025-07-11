@@ -5,6 +5,136 @@ console.log('JavaScript file is linked correctly.');
 const menu = document.getElementById('menu');
 const buttons = document.querySelectorAll('.menu-btn');
 
+// Global variable to store the selected difficulty
+let selectedDifficulty = 'Hard'; // Default to Hard
+
+// Function to show difficulty selection screen
+function showDifficultyScreen() {
+    // Hide the menu
+    menu.style.display = 'none';
+
+    // Remove any old screen if present
+    const oldScreen = document.getElementById('screen');
+    if (oldScreen) {
+        oldScreen.remove();
+    }
+
+    // Create the difficulty selection screen
+    const screen = document.createElement('div');
+    screen.id = 'screen';
+    screen.style.display = 'flex';
+    screen.style.flexDirection = 'column';
+    screen.style.alignItems = 'center';
+    screen.style.justifyContent = 'center';
+    screen.style.minHeight = '100vh';
+    screen.style.color = '#fff';
+    screen.style.fontFamily = `'Press Start 2P', monospace`;
+    screen.style.fontSize = '1.2rem';
+    screen.setAttribute('role', 'region');
+    screen.setAttribute('tabindex', '-1');
+    screen.setAttribute('aria-label', 'Difficulty Selection');
+
+    // Title
+    const title = document.createElement('h2');
+    title.textContent = 'Choose Your Difficulty';
+    title.style.fontSize = '1.8rem';
+    title.style.marginBottom = '40px';
+    title.style.textAlign = 'center';
+    title.style.color = '#FFC907';
+    screen.appendChild(title);
+
+    // Easy button
+    const easyBtn = document.createElement('button');
+    easyBtn.textContent = 'Easy';
+    easyBtn.className = 'menu-btn';
+    easyBtn.style.background = '#4FCB53'; // Green for easy
+    easyBtn.style.border = '2px solid #fff';
+    easyBtn.style.marginBottom = '16px';
+    easyBtn.onclick = function() {
+        selectedDifficulty = 'Easy';
+        screen.remove();
+        showScreen('GAME');
+    };
+    easyBtn.setAttribute('aria-label', 'Easy difficulty - hunger stays full, less brown platforms');
+    screen.appendChild(easyBtn);
+
+    // Easy description
+    const easyDesc = document.createElement('p');
+    easyDesc.textContent = 'Hunger stays full, less dangerous water';
+    easyDesc.style.fontSize = '0.7rem';
+    easyDesc.style.marginBottom = '20px';
+    easyDesc.style.textAlign = 'center';
+    easyDesc.style.color = '#aaa';
+    screen.appendChild(easyDesc);
+
+    // Medium button
+    const mediumBtn = document.createElement('button');
+    mediumBtn.textContent = 'Medium';
+    mediumBtn.className = 'menu-btn';
+    mediumBtn.style.background = '#FF902A'; // Orange for medium
+    mediumBtn.style.border = '2px solid #fff';
+    mediumBtn.style.marginBottom = '16px';
+    mediumBtn.onclick = function() {
+        selectedDifficulty = 'Medium';
+        screen.remove();
+        showScreen('GAME');
+    };
+    mediumBtn.setAttribute('aria-label', 'Medium difficulty - normal hunger, more coins');
+    screen.appendChild(mediumBtn);
+
+    // Medium description
+    const mediumDesc = document.createElement('p');
+    mediumDesc.textContent = 'Normal hunger, more coins to collect';
+    mediumDesc.style.fontSize = '0.7rem';
+    mediumDesc.style.marginBottom = '20px';
+    mediumDesc.style.textAlign = 'center';
+    mediumDesc.style.color = '#aaa';
+    screen.appendChild(mediumDesc);
+
+    // Hard button
+    const hardBtn = document.createElement('button');
+    hardBtn.textContent = 'Hard';
+    hardBtn.className = 'menu-btn';
+    hardBtn.style.background = '#F5402C'; // Red for hard
+    hardBtn.style.border = '2px solid #fff';
+    hardBtn.style.marginBottom = '16px';
+    hardBtn.onclick = function() {
+        selectedDifficulty = 'Hard';
+        screen.remove();
+        showScreen('GAME');
+    };
+    hardBtn.setAttribute('aria-label', 'Hard difficulty - challenging gameplay');
+    screen.appendChild(hardBtn);
+
+    // Hard description
+    const hardDesc = document.createElement('p');
+    hardDesc.textContent = 'Full challenge mode';
+    hardDesc.style.fontSize = '0.7rem';
+    hardDesc.style.marginBottom = '40px';
+    hardDesc.style.textAlign = 'center';
+    hardDesc.style.color = '#aaa';
+    screen.appendChild(hardDesc);
+
+    // Back button
+    const backBtn = document.createElement('button');
+    backBtn.textContent = 'Back to Menu';
+    backBtn.className = 'menu-btn';
+    backBtn.style.marginTop = '32px';
+    backBtn.onclick = function() {
+        screen.remove();
+        menu.style.display = 'flex';
+        const title = document.getElementById('main-title');
+        if (title) {
+            title.focus();
+        }
+    };
+    backBtn.setAttribute('aria-label', 'Back to Main Menu');
+    screen.appendChild(backBtn);
+
+    document.body.appendChild(screen);
+    screen.focus();
+}
+
 // Function to create the game HUD (top info bar)
 function createHUD(money, food, health, timerSeconds) {
     const hud = document.createElement('div');
@@ -438,8 +568,14 @@ function createGameArea() {
         const maxX = areaWidth - width - 10;
         const x = Math.floor(Math.random() * (maxX > 0 ? maxX : 1)) + 5;
 
+        // Adjust platform color chance based on difficulty
+        let brownChance = 0.5; // Default chance for brown platforms
+        if (selectedDifficulty === 'Easy') {
+            brownChance = 0.25; // Less brown platforms on easy
+        }
+
         // If forceBlue is true, make the platform blue, otherwise random
-        let isBrown = !forceBlue && Math.random() < 0.5;
+        let isBrown = !forceBlue && Math.random() < brownChance;
         const color = isBrown ? '#BF6C46' : '#77A8BB';
 
         // Create platform div
@@ -465,23 +601,31 @@ function createGameArea() {
 
         // --- Randomly add a coin on blue platforms ---
         let coin = null;
-        if (!isBrown && Math.random() < 0.4) {
-            coin = document.createElement('img');
-            coin.src = 'img/mone.png';
-            coin.alt = 'Coin';
-            coin.className = 'coin-on-platform';
-            coin.style.position = 'absolute';
-            coin.style.left = `${width / 2 - 16}px`; // Adjusted for bigger size
-            coin.style.top = '-26px'; // Adjusted for bigger size
-            coin.style.width = '32px'; // Made bigger
-            coin.style.height = '32px'; // Made bigger
-            coin.style.border = 'none'; // Remove white border
-            coin.style.borderRadius = '0'; /* Keep pixelated look */
-            coin.style.display = 'block';
-            coin.style.zIndex = '3';
-            coin.style.imageRendering = 'pixelated'; /* Maintain pixelated rendering */
-            coin.setAttribute('data-collected', 'false');
-            platform.appendChild(coin);
+        if (!isBrown) {
+            // Adjust coin spawn chance based on difficulty
+            let coinChance = 0.4; // Default chance
+            if (selectedDifficulty === 'Medium') {
+                coinChance = 0.6; // More coins on medium
+            }
+            
+            if (Math.random() < coinChance) {
+                coin = document.createElement('img');
+                coin.src = 'img/mone.png';
+                coin.alt = 'Coin';
+                coin.className = 'coin-on-platform';
+                coin.style.position = 'absolute';
+                coin.style.left = `${width / 2 - 16}px`; // Adjusted for bigger size
+                coin.style.top = '-26px'; // Adjusted for bigger size
+                coin.style.width = '32px'; // Made bigger
+                coin.style.height = '32px'; // Made bigger
+                coin.style.border = 'none'; // Remove white border
+                coin.style.borderRadius = '0'; /* Keep pixelated look */
+                coin.style.display = 'block';
+                coin.style.zIndex = '3';
+                coin.style.imageRendering = 'pixelated'; /* Maintain pixelated rendering */
+                coin.setAttribute('data-collected', 'false');
+                platform.appendChild(coin);
+            }
         }
 
         // Add to DOM and array
@@ -994,13 +1138,18 @@ function showScreen(message) {
         // --- Decrease hunger bar every 5 seconds (visual only) ---
         // let hungerFrozen = false; // Removed unused variable
         let hungerInterval = setInterval(() => {
+            // Skip hunger decrease on Easy difficulty
+            if (selectedDifficulty === 'Easy') {
+                return; // Keep hunger full on easy mode
+            }
+
             if (segmentsLeft > 0) {
                 segmentsLeft--;
                 for (let i = 0; i < 10; i++) {
                     if (i < segmentsLeft) {
                         hungerSegments[i].style.background = '#fff';
                     } else {
-                        hungerSegments[i].style.background = '#181818';
+                        hungerSegments[i].style.background = '#2A2A2A'; // Updated to match new game area color
                     }
                 }
                 // If hunger just reached 0, handle food/money logic
@@ -1045,7 +1194,6 @@ function showScreen(message) {
                             msg.textContent = "Uh-oh, you're too hungry! Try again?";
                         }
                         clearInterval(hungerInterval);
-                        hungerFrozen = true; // Set flag to freeze game area
                     }
                 }
             }
@@ -1249,8 +1397,8 @@ window.addEventListener('DOMContentLoaded', function() {
 
 // Add click event listeners to each button
 buttons[0].onclick = function() {
-    // Start button: show the game screen
-    showScreen('GAME');
+    // Start button: show the difficulty selection screen
+    showDifficultyScreen();
 };
 buttons[1].onclick = function() {
     // How to Play button
