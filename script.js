@@ -1087,7 +1087,7 @@ function showScreen(message) {
         let money = 0;
         let food = 0; // Start food at 0, not 100
         let health = 0;
-        let hunger = 100; // Hunger bar starts full
+        // let hunger = 100; // Hunger bar starts full (removed unused variable)
 
         // Create the HUD with starting values
         const startTime = 180; // 3 minutes in seconds
@@ -1401,31 +1401,144 @@ buttons[0].onclick = function() {
     showDifficultyScreen();
 };
 buttons[1].onclick = function() {
-    // How to Play button
-    showScreen('To play, use WASD or arrow keys to move left/right and to jump. Jump onto the blue platforms and collect coins. But watch out! Avoid jumping on brown platforms, as they will make you sick. Double click on them to clean their water and to make them safe to jump on. You can also use the on-screen controls if you are on a mobile device. The goal is to collect as many coins as possible so that you can afford an education. If you do not have enough food, medicine, or money in the event that you are sick or hungry, you lose. Good luck!');
+    // How to Play button - create a properly formatted screen
+    showHowToPlayScreen();
 };
 buttons[2].onclick = function() {
-    // About Charity: Water button
-    showScreen('Charity: Water is a non-profit bringing clean water to people in need around the world. This game represents the struggles that many people have to face in order to collect fresh drinking water. Many cannot worry about getting an education before worrying about their health, and many cannot worry about their health before worrying about their drinking water. The player is a young girl, who are often the ones who have to travel long distances to collect water for their families.');
+    // About Charity: Water button - show screen with link
+    showAboutCharityWaterScreen();
 };
 
-// Add keyboard accessibility: allow Enter/Space to activate buttons
-buttons.forEach(btn => {
-    btn.addEventListener('keyup', function(e) {
-        if (e.key === 'Enter' || e.key === ' ') {
-            btn.click();
+// Function to show the How to Play screen with better formatting
+function showHowToPlayScreen() {
+    // Hide the menu
+    menu.style.display = 'none';
+
+    // Remove any old screen if present
+    const oldScreen = document.getElementById('screen');
+    if (oldScreen) {
+        oldScreen.remove();
+    }
+
+    // Create the how to play screen
+    const screen = document.createElement('div');
+    screen.id = 'screen';
+    screen.style.display = 'flex';
+    screen.style.flexDirection = 'column';
+    screen.style.alignItems = 'center';
+    screen.style.justifyContent = 'center';
+    screen.style.minHeight = '100vh';
+    screen.style.color = '#fff';
+    screen.style.fontFamily = `'Press Start 2P', monospace`;
+    screen.style.fontSize = '1.2rem';
+    screen.style.padding = '20px';
+    screen.setAttribute('role', 'region');
+    screen.setAttribute('tabindex', '-1');
+    screen.setAttribute('aria-label', 'How to Play');
+
+    // Add title
+    const title = document.createElement('h2');
+    title.textContent = 'How to Play';
+    title.style.marginBottom = '30px';
+    title.style.textAlign = 'center';
+    title.style.fontSize = '1.5rem';
+    screen.appendChild(title);
+
+    // Add instructions with better line spacing
+    const instructions = document.createElement('p');
+    instructions.textContent = 'To play, use WASD or arrow keys to move left/right and to jump. Jump onto the blue platforms and collect coins. But watch out! Avoid jumping on brown platforms, as they will make you sick. Double click on them to clean their water and to make them safe to jump on. You can also use the on-screen controls if you are on a mobile device. The goal is to collect as many coins as possible so that you can afford an education. If you do not have enough food, medicine, or money in the event that you are sick or hungry, you lose. Good luck!';
+    instructions.style.textAlign = 'center';
+    instructions.style.maxWidth = '90vw';
+    instructions.style.lineHeight = '2.2'; // Increased line spacing for better readability
+    instructions.style.marginBottom = '40px';
+    instructions.style.fontSize = '1rem'; // Slightly smaller font for better fit
+    screen.appendChild(instructions);
+
+    // Add back button
+    const backBtn = document.createElement('button');
+    backBtn.textContent = 'Back to Menu';
+    backBtn.className = 'menu-btn';
+    backBtn.style.marginTop = '20px';
+    backBtn.onclick = function() {
+        screen.remove();
+        menu.style.display = 'flex';
+        const title = document.getElementById('main-title');
+        if (title) {
+            title.focus();
         }
-    });
-});
+    };
+    backBtn.setAttribute('aria-label', 'Back to Main Menu');
+    screen.appendChild(backBtn);
 
-// In your createGameArea's gameLoop, use window.currentJumpPower for jump height:
-// if (jumpPressed && onGround) { vy = window.currentJumpPower; onGround = false; jumpPressed = false; }
-// In your createGameArea's gameLoop, use window.currentJumpPower for jump height:
-// if (jumpPressed && onGround) { vy = window.currentJumpPower; onGround = false; jumpPressed = false; }
-// if (jumpPressed && onGround) { vy = window.currentJumpPower; onGround = false; jumpPressed = false; }
+    // Add the screen to the body
+    document.body.appendChild(screen);
+    screen.focus();
+}
 
-// In your createGameArea's gameLoop, use window.currentJumpPower for jump height:
-// if (jumpPressed && onGround) { vy = window.currentJumpPower; onGround = false; jumpPressed = false; }
-// In your createGameArea's gameLoop, use window.currentJumpPower for jump height:
-// if (jumpPressed && onGround) { vy = window.currentJumpPower; onGround = false; jumpPressed = false; }
-// if (jumpPressed && onGround) { vy = window.currentJumpPower; onGround = false; jumpPressed = false; }
+// Function to show the About Charity: Water screen with link
+function showAboutCharityWaterScreen() {
+    // Hide the menu
+    menu.style.display = 'none';
+
+    // Remove any old screen if present
+    const oldScreen = document.getElementById('screen');
+    if (oldScreen) {
+        oldScreen.remove();
+    }
+
+    // Create the about screen
+    const screen = document.createElement('div');
+    screen.id = 'screen';
+    screen.style.display = 'flex';
+    screen.style.flexDirection = 'column';
+    screen.style.alignItems = 'center';
+    screen.style.justifyContent = 'center';
+    screen.style.minHeight = '100vh';
+    screen.style.color = '#fff';
+    screen.style.fontFamily = `'Press Start 2P', monospace`;
+    screen.style.fontSize = '1.2rem';
+    screen.style.padding = '20px';
+    screen.setAttribute('role', 'region');
+    screen.setAttribute('tabindex', '-1');
+    screen.setAttribute('aria-label', 'About Charity Water');
+
+    // Add title
+    const title = document.createElement('h2');
+    title.textContent = 'About Charity: Water';
+    title.style.marginBottom = '30px';
+    title.style.textAlign = 'center';
+    title.style.fontSize = '1.5rem';
+    screen.appendChild(title);
+
+    // Add description text with better line spacing
+    const description = document.createElement('p');
+    description.textContent = 'Charity: Water is a non-profit bringing clean water to people in need around the world. This game represents the struggles that many people have to face in order to collect fresh drinking water. Many cannot worry about getting an education before worrying about their health, and many cannot worry about their health before worrying about their drinking water. The player is a young girl, who are often the ones who have to travel long distances to collect water for their families.';
+    description.style.textAlign = 'center';
+    description.style.maxWidth = '90vw';
+    description.style.lineHeight = '2.2'; // Increased line spacing for better readability
+        description.style.marginBottom = '30px';
+        description.style.fontSize = '1rem'; 
+    
+        // Add the description to the screen
+        screen.appendChild(description);
+    
+        // Add back button
+        const backBtn = document.createElement('button');
+        backBtn.textContent = 'Back to Menu';
+        backBtn.className = 'menu-btn';
+        backBtn.style.marginTop = '20px';
+        backBtn.onclick = function() {
+            screen.remove();
+            menu.style.display = 'flex';
+            const title = document.getElementById('main-title');
+            if (title) {
+                title.focus();
+            }
+        };
+        backBtn.setAttribute('aria-label', 'Back to Main Menu');
+        screen.appendChild(backBtn);
+    
+        // Add the screen to the body
+        document.body.appendChild(screen);
+        screen.focus();
+    }
