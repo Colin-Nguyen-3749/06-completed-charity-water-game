@@ -40,14 +40,14 @@ function showDifficultyScreen() {
     title.style.fontSize = '1.8rem';
     title.style.marginBottom = '40px';
     title.style.textAlign = 'center';
-    title.style.color = '#FFC907';
+    title.style.color = '#fff';
     screen.appendChild(title);
 
     // Easy button
     const easyBtn = document.createElement('button');
     easyBtn.textContent = 'Easy';
     easyBtn.className = 'menu-btn';
-    easyBtn.style.background = '#4FCB53'; // Green for easy
+    easyBtn.style.background = '#111'; // Dark background for easy
     easyBtn.style.border = '2px solid #fff';
     easyBtn.style.marginBottom = '16px';
     easyBtn.onclick = function() {
@@ -71,7 +71,7 @@ function showDifficultyScreen() {
     const mediumBtn = document.createElement('button');
     mediumBtn.textContent = 'Medium';
     mediumBtn.className = 'menu-btn';
-    mediumBtn.style.background = '#FF902A'; // Orange for medium
+    mediumBtn.style.background = '#111'; // Dark background for medium
     mediumBtn.style.border = '2px solid #fff';
     mediumBtn.style.marginBottom = '16px';
     mediumBtn.onclick = function() {
@@ -95,7 +95,7 @@ function showDifficultyScreen() {
     const hardBtn = document.createElement('button');
     hardBtn.textContent = 'Hard';
     hardBtn.className = 'menu-btn';
-    hardBtn.style.background = '#F5402C'; // Red for hard
+    hardBtn.style.background = '#111'; // Dark background for hard
     hardBtn.style.border = '2px solid #fff';
     hardBtn.style.marginBottom = '16px';
     hardBtn.onclick = function() {
@@ -1323,74 +1323,34 @@ function showScreen(message) {
     document.body.appendChild(screen);
 }
 
-// --- Add a yellow jerry can above the main title on the main menu ---
+// --- Add a large jerry can image above the main title on the main menu ---
 window.addEventListener('DOMContentLoaded', function() {
     // Only add if on the menu screen and not already present
     const menu = document.getElementById('menu');
+    // Remove the old jerrycan-icon if it exists
+    const oldJerry = document.getElementById('jerrycan-icon');
+    if (oldJerry) {
+        oldJerry.remove();
+    }
     if (menu && !document.getElementById('jerrycan-icon')) {
-        // Create a simple yellow jerry can using a div and CSS
-        const jerryCan = document.createElement('div');
-        jerryCan.id = 'jerrycan-icon';
-        jerryCan.style.width = '54px';
-        jerryCan.style.height = '54px';
-        jerryCan.style.marginBottom = '18px';
-        jerryCan.style.background = '#FFC907';
-        jerryCan.style.border = '4px solid #fff';
-        jerryCan.style.borderRadius = '10px';
-        jerryCan.style.position = 'relative';
-        jerryCan.style.boxShadow = '2px 4px #222';
-
-       
-
-        // Add a spout (small rectangle)
-        const spout = document.createElement('div');
-        spout.style.position = 'absolute';
-        spout.style.top = '5px';
-        spout.style.right = '7px';
-        spout.style.width = '8px';
-        spout.style.height = '16px';
-        spout.style.background = '#fff';
-        spout.style.borderRadius = '2px';
-        jerryCan.appendChild(spout);
-
-        // Center the X in the jerry can
-        const crossCenter = document.createElement('div');
-        crossCenter.style.position = 'absolute';
-        crossCenter.style.left = '50%';
-        crossCenter.style.top = '50%';
-        crossCenter.style.transform = 'translate(-50%, -50%)';
-        crossCenter.style.width = '28px';
-        crossCenter.style.height = '28px';
-
-        // Add a cross (X) for the jerry can design, centered
-        const cross1 = document.createElement('div');
-        cross1.style.position = 'absolute';
-        cross1.style.left = '0';
-        cross1.style.top = '11px';
-        cross1.style.width = '28px';
-        cross1.style.height = '6px';
-        cross1.style.background = '#fff';
-        cross1.style.transform = 'rotate(45deg)';
-        cross1.style.borderRadius = '2px';
-        crossCenter.appendChild(cross1);
-
-        const cross2 = document.createElement('div');
-        cross2.style.position = 'absolute';
-        cross2.style.left = '0';
-        cross2.style.top = '11px';
-        cross2.style.width = '28px';
-        cross2.style.height = '6px';
-        cross2.style.background = '#fff';
-        cross2.style.transform = 'rotate(-45deg)';
-        cross2.style.borderRadius = '2px';
-        crossCenter.appendChild(cross2);
-
-        jerryCan.appendChild(crossCenter);
-
+        // Create an img element for the jerry can
+        const jerryImg = document.createElement('img');
+        jerryImg.id = 'jerrycan-icon';
+        jerryImg.src = 'img/jerry.png';
+        jerryImg.alt = 'Charity: Water Jerry Can Logo';
+        // Make the image much bigger for emphasis
+        jerryImg.style.width = '180px';
+        jerryImg.style.height = '180px';
+        jerryImg.style.marginBottom = '28px';
+        jerryImg.style.display = 'block';
+        jerryImg.style.background = 'none';
+        jerryImg.style.border = 'none';
+        jerryImg.style.borderRadius = '0';
+        jerryImg.style.boxShadow = 'none';
         // Insert above the main title
         const mainTitle = document.getElementById('main-title');
         if (mainTitle) {
-            menu.insertBefore(jerryCan, mainTitle);
+            menu.insertBefore(jerryImg, mainTitle);
         }
     }
 });
