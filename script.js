@@ -1516,29 +1516,56 @@ function showAboutCharityWaterScreen() {
     description.style.textAlign = 'center';
     description.style.maxWidth = '90vw';
     description.style.lineHeight = '2.2'; // Increased line spacing for better readability
-        description.style.marginBottom = '30px';
-        description.style.fontSize = '1rem'; 
-    
-        // Add the description to the screen
-        screen.appendChild(description);
-    
-        // Add back button
-        const backBtn = document.createElement('button');
-        backBtn.textContent = 'Back to Menu';
-        backBtn.className = 'menu-btn';
-        backBtn.style.marginTop = '20px';
-        backBtn.onclick = function() {
-            screen.remove();
-            menu.style.display = 'flex';
-            const title = document.getElementById('main-title');
-            if (title) {
-                title.focus();
-            }
-        };
-        backBtn.setAttribute('aria-label', 'Back to Main Menu');
-        screen.appendChild(backBtn);
-    
-        // Add the screen to the body
-        document.body.appendChild(screen);
-        screen.focus();
-    }
+    description.style.marginBottom = '30px';
+    description.style.fontSize = '1rem'; // Slightly smaller font for better fit
+    screen.appendChild(description);
+
+    // Add link to charity:water website
+    const link = document.createElement('a');
+    link.href = 'https://www.charitywater.org/';
+    link.target = '_blank'; // Open in new tab
+    link.rel = 'noopener noreferrer'; // Security best practice
+    link.textContent = 'Visit Charity: Water';
+    link.style.color = '#FFC907'; // Use charity:water yellow
+    link.style.textDecoration = 'underline';
+    link.style.fontSize = '1rem';
+    link.style.marginBottom = '40px';
+    link.style.padding = '10px';
+    link.style.border = '2px solid #FFC907';
+    link.style.borderRadius = '8px';
+    link.style.background = 'transparent';
+    link.style.transition = 'background 0.2s, color 0.2s';
+    link.setAttribute('aria-label', 'Visit Charity Water website (opens in new tab)');
+
+    // Add hover effect for the link
+    link.addEventListener('mouseenter', function() {
+        link.style.background = '#FFC907';
+        link.style.color = '#000';
+    });
+    link.addEventListener('mouseleave', function() {
+        link.style.background = 'transparent';
+        link.style.color = '#FFC907';
+    });
+
+    screen.appendChild(link);
+
+    // Add back button
+    const backBtn = document.createElement('button');
+    backBtn.textContent = 'Back to Menu';
+    backBtn.className = 'menu-btn';
+    backBtn.style.marginTop = '20px';
+    backBtn.onclick = function() {
+        screen.remove();
+        menu.style.display = 'flex';
+        const title = document.getElementById('main-title');
+        if (title) {
+            title.focus();
+        }
+    };
+    backBtn.setAttribute('aria-label', 'Back to Main Menu');
+    screen.appendChild(backBtn);
+
+    // Add the screen to the body
+    document.body.appendChild(screen);
+    screen.focus();
+}
