@@ -1402,11 +1402,11 @@ buttons[0].onclick = function() {
 };
 buttons[1].onclick = function() {
     // How to Play button
-    showScreen('How to Play: Use your skills to help bring water to those in need!');
+    showScreen('To play, use WASD or arrow keys to move left/right and to jump. Jump onto the blue platforms and collect coins. But watch out! Avoid jumping on brown platforms, as they will make you sick. Double click on them to clean their water and to make them safe to jump on. You can also use the on-screen controls if you are on a mobile device. The goal is to collect as many coins as possible so that you can afford an education. If you do not have enough food, medicine, or money in the event that you are sick or hungry, you lose. Good luck!');
 };
 buttons[2].onclick = function() {
     // About Charity: Water button
-    showScreen('Charity: Water is a non-profit bringing clean water to people in need.');
+    showScreen('Charity: Water is a non-profit bringing clean water to people in need around the world. This game represents the struggles that many people have to face in order to collect fresh drinking water. Many cannot worry about getting an education before worrying about their health, and many cannot worry about their health before worrying about their drinking water. The player is a young girl, who are often the ones who have to travel long distances to collect water for their families.');
 };
 
 // Add keyboard accessibility: allow Enter/Space to activate buttons
