@@ -60,6 +60,35 @@ function playWinSound() {
   }
 }
 
+function playCleanSound() {
+    try {
+        const audio = new Audio('sounds/clean.mp3');
+        audio.volume = 0.5; // Set volume to 50% for clean sound
+        audio.play().catch(error => {
+            // Silently handle any audio play errors (like autoplay restrictions)
+            console.log('Could not play clean sound:', error);
+        });
+    } catch (error) {
+        // Silently handle any audio creation errors
+        console.log('Could not create clean audio:', error);
+    }
+}
+
+// Function to play lose sound
+function playLoseSound() {
+    try {
+        const audio = new Audio('sounds/lose.mp3');
+        audio.volume = 0.6; // Set volume to 60% for lose sound
+        audio.play().catch(error => {
+            // Silently handle any audio play errors (like autoplay restrictions)
+            console.log('Could not play lose sound:', error);
+        });
+    } catch (error) {
+        // Silently handle any audio creation errors
+        console.log('Could not create lose audio:', error);
+    }
+}
+
 // Get the menu and all menu buttons
 const menu = document.getElementById('menu');
 const buttons = document.querySelectorAll('.menu-btn');
@@ -666,6 +695,7 @@ function createGameArea() {
 
         // --- Double-click to turn brown platform blue ---
         platform.addEventListener('dblclick', function() {
+            playCleanSound(); // Play sound on double-click
             if (platform.style.background === 'rgb(191, 108, 70)' || platform.style.background === '#BF6C46') {
                 platform.style.background = '#77A8BB';
             }
@@ -993,6 +1023,7 @@ function createGameArea() {
                     }
                     // If no medicine and not enough money, freeze game and show message
                     else {
+                        playLoseSound(); // Play lose sound when player gets sick and can't afford treatment
                         if (msg) {
                             msg.textContent = "Uh-oh, you got sick! Try again?";
                         }
@@ -1266,6 +1297,7 @@ function showScreen(message) {
                     }
                     // If no food and not enough money, freeze game and show message
                     else {
+                        playLoseSound(); // Play lose sound when player is too hungry
                         if (msg) {
                             msg.textContent = "Uh-oh, you're too hungry! Try again?";
                         }
@@ -1311,6 +1343,8 @@ function showScreen(message) {
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
                 clearInterval(hungerInterval);
+                // Play lose sound when time runs out
+                playLoseSound();
                 // Show game over message
                 alert('Time is up!');
             }
