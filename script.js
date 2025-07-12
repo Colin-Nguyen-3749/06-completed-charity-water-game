@@ -46,6 +46,20 @@ function playCoinSound() {
     }
 }
 
+function playHurtSound() {
+    try {
+        const audio = new Audio('sounds/hurt.mp3');
+        audio.volume = 0.6; // Set volume to 60% for hurt sound
+        audio.play().catch(error => {
+            // Silently handle any audio play errors (like autoplay restrictions)
+            console.log('Could not play hurt sound:', error);
+        });
+    } catch (error) {
+        // Silently handle any audio creation errors
+        console.log('Could not create hurt audio:', error);
+    }
+}
+
 function playWinSound() {
   try {
     const audio = new Audio('sounds/win.mp3');
@@ -1007,6 +1021,7 @@ function createGameArea() {
                         healthValue.textContent = healthNum;
                         if (msg) {
                             msg.textContent = 'Uh-oh, you got sick! -1 MEDICINE';
+                            playHurtSound(); // Play hurt sound when player gets sick
                             setTimeout(() => { msg.textContent = ''; }, 2000);
                         }
                         moveToBluePlatform();
@@ -1017,6 +1032,7 @@ function createGameArea() {
                         moneyValue.textContent = moneyNum;
                         if (msg) {
                             msg.textContent = 'Uh-oh, you got sick! -5 DOLLARS';
+                            playHurtSound(); // Play hurt sound when player gets sick
                             setTimeout(() => { msg.textContent = ''; }, 2000);
                         }
                         moveToBluePlatform();
@@ -1273,6 +1289,7 @@ function showScreen(message) {
                         foodValue.textContent = foodNum;
                         if (msg) {
                             msg.textContent = "Uh-oh, you have to eat! -1 FOOD";
+                            playHurtSound(); // Play hurt sound when player is hungry
                             setTimeout(() => { msg.textContent = ''; }, 2000);
                         }
                         // Refill hunger bar after eating
@@ -1287,6 +1304,7 @@ function showScreen(message) {
                         moneyValue.textContent = moneyNum;
                         if (msg) {
                             msg.textContent = "Uh-oh, you need food! -3 DOLLARS";
+                            playHurtSound(); // Play hurt sound when player is hungry
                             setTimeout(() => { msg.textContent = ''; }, 2000);
                         }
                         // Refill hunger bar after buying food
