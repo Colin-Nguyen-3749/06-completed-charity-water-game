@@ -1,9 +1,29 @@
 // Log a message to the console to ensure the script is linked correctly
 console.log('JavaScript file is linked correctly.');
 
+// Function to play button click sound
+function playButtonSound() {
+    try {
+        const audio = new Audio('sounds/button.mp3');
+        audio.volume = 0.5; // Set volume to 50% to avoid being too loud
+        audio.play().catch(error => {
+            // Silently handle any audio play errors (like autoplay restrictions)
+            console.log('Could not play button sound:', error);
+        });
+    } catch (error) {
+        // Silently handle any audio creation errors
+        console.log('Could not create button audio:', error);
+    }
+}
+
 // Get the menu and all menu buttons
 const menu = document.getElementById('menu');
 const buttons = document.querySelectorAll('.menu-btn');
+
+// Add click sound to existing menu buttons
+buttons.forEach(button => {
+    button.addEventListener('click', playButtonSound);
+});
 
 // Global variable to store the selected difficulty
 let selectedDifficulty = 'Hard'; // Default to Hard
@@ -51,6 +71,7 @@ function showDifficultyScreen() {
     easyBtn.style.border = '2px solid #fff';
     easyBtn.style.marginBottom = '16px';
     easyBtn.onclick = function() {
+        playButtonSound(); // Add sound effect
         selectedDifficulty = 'Easy';
         screen.remove();
         showScreen('GAME');
@@ -75,6 +96,7 @@ function showDifficultyScreen() {
     mediumBtn.style.border = '2px solid #fff';
     mediumBtn.style.marginBottom = '16px';
     mediumBtn.onclick = function() {
+        playButtonSound(); // Add sound effect
         selectedDifficulty = 'Medium';
         screen.remove();
         showScreen('GAME');
@@ -99,6 +121,7 @@ function showDifficultyScreen() {
     hardBtn.style.border = '2px solid #fff';
     hardBtn.style.marginBottom = '16px';
     hardBtn.onclick = function() {
+        playButtonSound(); // Add sound effect
         selectedDifficulty = 'Hard';
         screen.remove();
         showScreen('GAME');
@@ -121,6 +144,7 @@ function showDifficultyScreen() {
     backBtn.className = 'menu-btn';
     backBtn.style.marginTop = '32px';
     backBtn.onclick = function() {
+        playButtonSound(); // Add sound effect
         screen.remove();
         menu.style.display = 'flex';
         const title = document.getElementById('main-title');
@@ -297,6 +321,7 @@ function createHUD(money, food, health, timerSeconds) {
     buyFoodBtn.style.border = '1.5px solid #fff';
     buyFoodBtn.style.color = '#fff';
     buyFoodBtn.onclick = function() {
+        playButtonSound(); // Add sound effect
         // Always get the latest values from the DOM
         const moneyValue = document.getElementById('money-value');
         const foodValue = document.getElementById('food-value');
@@ -333,6 +358,7 @@ function createHUD(money, food, health, timerSeconds) {
     buyMedBtn.style.border = '1.5px solid #fff';
     buyMedBtn.style.color = '#fff';
     buyMedBtn.onclick = function() {
+        playButtonSound(); // Add sound effect
         // Always get the latest values from the DOM
         const moneyValue = document.getElementById('money-value');
         const healthValue = document.getElementById('health-value');
@@ -493,6 +519,7 @@ function createHUD(money, food, health, timerSeconds) {
 
     // --- Click event for education button ---
     buyEduBtn.onclick = function() {
+        playButtonSound(); // Add sound effect
         // Always get the latest value from the DOM
         const moneyValue = document.getElementById('money-value');
         let moneyNum = parseInt(moneyValue.textContent, 10);
@@ -1247,6 +1274,7 @@ function showScreen(message) {
         resetBtn.className = 'menu-btn';
         resetBtn.style.marginTop = '16px';
         resetBtn.onclick = function() {
+            playButtonSound(); // Add sound effect
             // Clear intervals to stop timers
             clearInterval(timerInterval);
             clearInterval(hungerInterval);
@@ -1264,6 +1292,7 @@ function showScreen(message) {
         backBtn.className = 'menu-btn';
         backBtn.style.marginTop = '16px';
         backBtn.onclick = function() {
+            playButtonSound(); // Add sound effect
             clearInterval(timerInterval);
             clearInterval(hungerInterval);
             screen.remove();
@@ -1310,6 +1339,7 @@ function showScreen(message) {
     backBtn.className = 'menu-btn';
     backBtn.style.marginTop = '32px';
     backBtn.onclick = function() {
+        playButtonSound(); // Add sound effect
         screen.remove();
         menu.style.display = 'flex';
         const title = document.getElementById('main-title');
@@ -1357,14 +1387,17 @@ window.addEventListener('DOMContentLoaded', function() {
 
 // Add click event listeners to each button
 buttons[0].onclick = function() {
+    playButtonSound(); // Add sound effect
     // Start button: show the difficulty selection screen
     showDifficultyScreen();
 };
 buttons[1].onclick = function() {
+    playButtonSound(); // Add sound effect
     // How to Play button - create a properly formatted screen
     showHowToPlayScreen();
 };
 buttons[2].onclick = function() {
+    playButtonSound(); // Add sound effect
     // About Charity: Water button - show screen with link
     showAboutCharityWaterScreen();
 };
@@ -1420,6 +1453,7 @@ function showHowToPlayScreen() {
     backBtn.className = 'menu-btn';
     backBtn.style.marginTop = '20px';
     backBtn.onclick = function() {
+        playButtonSound(); // Add sound effect
         screen.remove();
         menu.style.display = 'flex';
         const title = document.getElementById('main-title');
@@ -1515,6 +1549,7 @@ function showAboutCharityWaterScreen() {
     backBtn.className = 'menu-btn';
     backBtn.style.marginTop = '20px';
     backBtn.onclick = function() {
+        playButtonSound(); // Add sound effect
         screen.remove();
         menu.style.display = 'flex';
         const title = document.getElementById('main-title');
