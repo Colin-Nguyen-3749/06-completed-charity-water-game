@@ -16,6 +16,21 @@ function playButtonSound() {
     }
 }
 
+// Function to play jump sound
+function playJumpSound() {
+    try {
+        const audio = new Audio('sounds/jump.mp3');
+        audio.volume = 0.4; // Set volume to 40% for jump sound
+        audio.play().catch(error => {
+            // Silently handle any audio play errors (like autoplay restrictions)
+            console.log('Could not play jump sound:', error);
+        });
+    } catch (error) {
+        // Silently handle any audio creation errors
+        console.log('Could not create jump audio:', error);
+    }
+}
+
 // Get the menu and all menu buttons
 const menu = document.getElementById('menu');
 const buttons = document.querySelectorAll('.menu-btn');
@@ -836,6 +851,8 @@ function createGameArea() {
 
         // Jump
         if (jumpPressed && onGround) {
+            // Play jump sound when player jumps
+            playJumpSound();
             // Use the currentJumpPower global variable for jump height
             // If not set, default to -15
             vy = typeof window.currentJumpPower === "number" ? window.currentJumpPower : -15;
