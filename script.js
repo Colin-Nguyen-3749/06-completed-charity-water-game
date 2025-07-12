@@ -31,6 +31,20 @@ function playJumpSound() {
     }
 }
 
+function playWinSound() {
+  try {
+    const audio = new Audio('sounds/win.mp3');
+    audio.volume = 0.6; // Set volume to 60% for win sound
+    audio.play().catch(error => {
+      // Silently handle any audio play errors (like autoplay restrictions)
+      console.log('Could not play win sound:', error);
+    });
+  } catch (error) {
+    // Silently handle any audio creation errors
+    console.log('Could not create win audio:', error);
+  }
+}
+
 // Get the menu and all menu buttons
 const menu = document.getElementById('menu');
 const buttons = document.querySelectorAll('.menu-btn');
@@ -462,6 +476,7 @@ function createHUD(money, food, health, timerSeconds) {
 
     // --- Pixelated confetti function ---
     function showConfetti() {
+        playWinSound(); // Play win sound
         // Create a container for confetti
         let confettiContainer = document.getElementById('confetti-container');
         if (!confettiContainer) {
