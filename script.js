@@ -31,6 +31,21 @@ function playJumpSound() {
     }
 }
 
+// Function to play coin collection sound
+function playCoinSound() {
+    try {
+        const audio = new Audio('sounds/coin.mp3');
+        audio.volume = 0.5; // Set volume to 50% for coin sound
+        audio.play().catch(error => {
+            // Silently handle any audio play errors (like autoplay restrictions)
+            console.log('Could not play coin sound:', error);
+        });
+    } catch (error) {
+        // Silently handle any audio creation errors
+        console.log('Could not create coin audio:', error);
+    }
+}
+
 function playWinSound() {
   try {
     const audio = new Audio('sounds/win.mp3');
@@ -1082,6 +1097,8 @@ function createGameArea() {
                 ) {
                     plat.coin.setAttribute('data-collected', 'true');
                     plat.coin.style.display = 'none';
+                    // Play coin collection sound
+                    playCoinSound();
                     // Always get the current money value from the DOM and increment it
                     const moneyValue = document.getElementById('money-value');
                     if (moneyValue) {
