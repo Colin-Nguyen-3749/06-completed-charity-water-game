@@ -1,6 +1,6 @@
 {
   "name": "Running Water",
-  "short_name": "Water Game",
+  "short_name": "Running Water",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#2196f3",
