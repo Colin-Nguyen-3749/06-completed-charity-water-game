@@ -8,7 +8,7 @@
   "description": "A simple, beginner-friendly water charity game.",
   "icons": [
     {
-      "src": "img/RW_512.png",
+      "src": "img/jump.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
